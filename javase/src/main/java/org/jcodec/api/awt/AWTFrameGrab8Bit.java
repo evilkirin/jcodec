@@ -9,6 +9,7 @@ import org.jcodec.common.io.FileChannelWrapper;
 import org.jcodec.common.io.NIOUtils;
 import org.jcodec.common.io.SeekableByteChannel;
 import org.jcodec.common.model.Picture8Bit;
+import org.jcodec.common.model.Rect;
 import org.jcodec.scale.AWTUtil;
 
 import java.awt.image.BufferedImage;
@@ -83,6 +84,8 @@ public class AWTFrameGrab8Bit extends FrameGrab8Bit {
      */
     public BufferedImage getFrame() throws IOException {
         Picture8Bit nativeFrame = getNativeFrame();
+        nativeFrame.setCrop(new Rect(0, 0, 600, 600));
+
         return nativeFrame == null ? null : AWTUtil.toBufferedImage8Bit(nativeFrame);
     }
 
@@ -90,7 +93,7 @@ public class AWTFrameGrab8Bit extends FrameGrab8Bit {
      * Get frame at a specified frame number as AWT image
      * 
      * @param file
-     * @param second
+     * @param frameNumber
      * @return
      * @throws IOException
      * @throws JCodecException
@@ -109,7 +112,7 @@ public class AWTFrameGrab8Bit extends FrameGrab8Bit {
      * Get frame at a specified frame number as AWT image
      * 
      * @param file
-     * @param second
+     * @param frameNumber
      * @return
      * @throws IOException
      * @throws JCodecException
@@ -138,7 +141,7 @@ public class AWTFrameGrab8Bit extends FrameGrab8Bit {
      * 
      * @param vt
      * @param decoder
-     * @param frameNumber
+     * @param second
      * @return
      * @throws IOException
      * @throws JCodecException
@@ -170,7 +173,7 @@ public class AWTFrameGrab8Bit extends FrameGrab8Bit {
      * 
      * @param vt
      * @param decoder
-     * @param frameNumber
+     * @param second
      * @return
      * @throws IOException
      * @throws JCodecException

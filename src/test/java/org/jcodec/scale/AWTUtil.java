@@ -1,5 +1,4 @@
 package org.jcodec.scale;
-import static org.jcodec.common.model.ColorSpace.RGB;
 
 import org.jcodec.common.model.ColorSpace;
 import org.jcodec.common.model.Picture;
@@ -7,7 +6,8 @@ import org.jcodec.common.model.Picture8Bit;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.lang.IllegalArgumentException;
+
+import static org.jcodec.common.model.ColorSpace.RGB;
 
 public class AWTUtil {
 
@@ -22,7 +22,7 @@ public class AWTUtil {
             new RgbToBgr().transform(out, out);
             src = out;
         }
-        
+
         BufferedImage dst = new BufferedImage(src.getCroppedWidth(), src.getCroppedHeight(),
                 BufferedImage.TYPE_3BYTE_BGR);
 
@@ -120,6 +120,26 @@ public class AWTUtil {
                 dstData[off++] = (rgb1 >> 16) & 0xff;
                 dstData[off++] = (rgb1 >> 8) & 0xff;
                 dstData[off++] = rgb1 & 0xff;
+            }
+        }
+    }
+
+    public static Picture8Bit fromBufferedImageRGB8Bit(BufferedImage src) {
+        Picture8Bit dst = Picture8Bit.create(src.getWidth(), src.getHeight(), RGB);
+        fromBufferedImage8Bit(src, dst);
+        return dst;
+    }
+
+    public static void fromBufferedImage8Bit(BufferedImage src, Picture8Bit dst) {
+        byte[] dstData = dst.getPlaneData(0);
+
+        int off = 0;
+        for (int i = 0; i < src.getHeight(); i++) {
+            for (int j = 0; j < src.getWidth(); j++) {
+                int rgb1 = src.getRGB(j, i);
+                dstData[off++] = (byte) (((rgb1 >> 16) & 0xff) - 128);
+                dstData[off++] = (byte) (((rgb1 >> 8) & 0xff) - 128);
+                dstData[off++] = (byte) ((rgb1 & 0xff) - 128);
             }
         }
     }

@@ -1,18 +1,17 @@
 package org.jcodec.samples.api;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-
-import javax.imageio.ImageIO;
-
 import org.jcodec.api.JCodecException;
 import org.jcodec.api.awt.AWTFrameGrab8Bit;
 import org.jcodec.common.io.FileChannelWrapper;
 import org.jcodec.common.io.NIOUtils;
 import org.jcodec.common.tools.MainUtils;
 import org.jcodec.common.tools.MainUtils.Cmd;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
@@ -39,7 +38,7 @@ public class FrameGrabDemo {
 
         int maxFrames = cmd.getIntegerFlagD(FLAG_NUM_FRAMES, Integer.MAX_VALUE);
         String outDir = cmd.getStringFlagD(FLAG_OUT_PATTERN,
-                new File(System.getProperty("user.home"), "frame%08d.jpg").getAbsolutePath());
+                new File(System.getProperty("user.home") + "/Desktop/test", "frame%08d.jpg").getAbsolutePath());
         FileChannelWrapper in = null;
         try {
             in = NIOUtils.readableChannel(MainUtils.tildeExpand(cmd.getArg(0)));

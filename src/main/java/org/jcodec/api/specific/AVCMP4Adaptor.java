@@ -1,4 +1,5 @@
 package org.jcodec.api.specific;
+
 import org.jcodec.api.MediaInfo;
 import org.jcodec.codecs.h264.H264Decoder;
 import org.jcodec.codecs.h264.H264Utils;
@@ -6,13 +7,10 @@ import org.jcodec.codecs.h264.io.model.NALUnit;
 import org.jcodec.codecs.h264.io.model.NALUnitType;
 import org.jcodec.codecs.h264.io.model.SeqParameterSet;
 import org.jcodec.common.DemuxerTrackMeta;
-import org.jcodec.common.model.ColorSpace;
-import org.jcodec.common.model.Packet;
-import org.jcodec.common.model.Picture;
-import org.jcodec.common.model.Picture8Bit;
-import org.jcodec.common.model.Rational;
-import org.jcodec.common.model.Size;
+import org.jcodec.common.model.*;
 import org.jcodec.containers.mp4.MP4Packet;
+import org.jcodec.scale.ColorUtil;
+import org.jcodec.scale.Transform8Bit;
 
 import java.nio.ByteBuffer;
 
@@ -86,7 +84,13 @@ public class AVCMP4Adaptor implements ContainerAdaptor {
             // TODO: transform
         }
 
-        return pic;
+        Transform8Bit transform8Bit = ColorUtil.getTransform8Bit(pic.getColor(), ColorSpace.RGB);
+        Picture8Bit target = Picture8Bit.create(pic.getWidth(), pic.getHeight(), ColorSpace.RGB);
+        transform8Bit.transform(pic, target);
+
+        return target;
+
+//        return pic;
     }
     
     private void updateState(Packet packet) {

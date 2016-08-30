@@ -1,10 +1,9 @@
 package org.jcodec.common.model;
 
+import java.util.Arrays;
+
 import static java.lang.System.arraycopy;
 import static org.jcodec.common.model.ColorSpace.MAX_PLANES;
-
-import java.lang.IllegalArgumentException;
-import java.util.Arrays;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
@@ -129,6 +128,9 @@ public class Picture8Bit {
         if (!compatible(src))
             throw new IllegalArgumentException("Can not copy to incompatible picture");
         for (int plane = 0; plane < color.nComp; plane++) {
+            if (plane >= data.length) {
+                break;
+            }
             if (data[plane] == null)
                 continue;
             arraycopy(src.data[plane], 0, data[plane], 0, (width >> color.compWidth[plane])
@@ -157,6 +159,9 @@ public class Picture8Bit {
         Picture8Bit result = Picture8Bit.create(crop.getWidth(), crop.getHeight(), color);
 
         for (int plane = 0; plane < color.nComp; plane++) {
+            if (plane >= data.length) {
+                break;
+            }
             if (data[plane] == null)
                 continue;
             cropSub(data[plane], crop.getX() >> color.compWidth[plane], crop.getY() >> color.compHeight[plane],

@@ -1,10 +1,11 @@
 package org.jcodec.extras.streaming;
 
-import java.io.IOException;
-
 import org.jcodec.containers.mp4.boxes.SampleEntry;
+import org.jcodec.movtool.streaming.CodecMeta;
 import org.jcodec.movtool.streaming.VirtualPacket;
 import org.jcodec.movtool.streaming.VirtualTrack;
+
+import java.io.IOException;
 
 /**
  * This class is part of JCodec ( www.jcodec.org ) This software is distributed
@@ -23,11 +24,15 @@ public class FFMpegAACTrack implements VirtualTrack {
 		return null;
 	}
 
-	@Override
-	public SampleEntry getSampleEntry() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public CodecMeta getCodecMeta() {
+        return null;
+    }
+
+    public SampleEntry getSampleEntry() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	@Override
 	public VirtualEdit[] getEdits() {
